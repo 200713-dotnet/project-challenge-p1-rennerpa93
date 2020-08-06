@@ -1,0 +1,14 @@
+﻿@model IEnumerable<PizzaBox.Domain.Models.Pizza>
+@{
+    ViewData["Title"] = "Home2";
+}
+
+<h1>Home2</h1>
+
+<h2>Pizza List</h2>
+<ul>
+    @foreach (var p in @Model)
+    {
+        <li>@p</li>
+    }
+</ul>

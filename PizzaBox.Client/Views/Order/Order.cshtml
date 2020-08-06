@@ -1,0 +1,47 @@
+﻿@model PizzaBox.Client.Models.PizzaViewModel
+
+@{
+  ViewData["Title"] = "Order";
+}
+
+<h1>Order Home</h1>
+
+
+<form action="/order/placeorder" method="post">
+  @foreach (var crust in @Model.Crusts)
+  {
+    <label>
+      <input type="radio" name="crust" value="@crust.Name" data-val="true" data-val-required="Please pick a crust." />
+      @crust.Name
+    </label>
+    <br />
+  }
+
+  <select name="size" id="">
+    @foreach (var size in @Model.Sizes)
+    {
+      <option value="@size.Name">@size.Name</option>
+    }
+  </select>
+
+  <br />
+
+   
+  @foreach (var topping in @Model.Toppings)
+  {
+
+    int i = 0;
+    <label>
+      <input type="checkbox" name="selectedtoppings[@i].IsSelected" value="@topping.Name" />
+      <input type="hidden" name="selectedtoppings[@i].Name" value="@topping.Name" />
+      @topping.Name
+    </label>
+
+    <br />
+    i += 1;
+  }
+
+  <button type="submit">Create Pizza</button>
+</form>
+
+
