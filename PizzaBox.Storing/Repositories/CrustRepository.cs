@@ -17,5 +17,10 @@ namespace PizzaBox.Storing.Repositories
     {
       return _db.Crust.ToList();
     }
+
+    public Crust GetCrustByName(string name)
+    {
+      return _db.Crust.FirstOrDefault(c => c.Name == name);
+    }
   }
 }

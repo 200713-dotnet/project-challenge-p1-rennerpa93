@@ -17,5 +17,10 @@ namespace PizzaBox.Storing.Repositories
     {
       return _db.Size.ToList();
     }
+
+    public Size GetSizeByName(string name)
+    {
+      return _db.Size.FirstOrDefault(s => s.Name == name);
+    }
   }
 }

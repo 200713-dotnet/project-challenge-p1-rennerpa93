@@ -1,11 +1,11 @@
-﻿
+﻿@model PizzaBox.Client.Models.PizzaViewModel
 @{
   ViewData["Title"] = "AddPizza";
 }
 
 <h1>Create your own pizza!</h1>
 
-<form action="/order/placeorder" method="post">
+<form action="/order/finishpizza" method="post">
   @foreach (var crust in @Model.Crusts)
   {
     <label>
@@ -25,20 +25,31 @@
   <br />
 
 
-  @foreach (var topping in @Model.Toppings)
+  @for (var i = 0; i < Model.Toppings.Count(); i++)
   {
-
-    int i = 0;
-    <label>
-      <input type="checkbox" name="selectedtoppings[@i].IsSelected" value="@topping.Name" />
-      <input type="hidden" name="selectedtoppings[@i].Name" value="@topping.Name" />
-      @topping.Name
-    </label>
-
-    <br />
-    i += 1;
+<label>
+  <input type="checkbox" name="selectedtoppings[@i].IsSelected" value="true" />
+  <input type="hidden" name="selectedtoppings[@i].Name" value="@Model.Toppings[i].Name" />
+  @Model.Toppings[i].Name
+</label>
   }
+  @*@foreach (var topping in @Model.Toppings)
+    {
 
+      int i = 0;
+      <label>
+        <input type="checkbox" name="selectedtoppings[@i].IsSelected" value="true" />
+        <input type="hidden" name="selectedtoppings[@i].Name" value="@topping.Name" />
+        @topping.Name
+      </label>
+
+      <br />
+      i += 1;
+    }*@
+
+  <input type="hidden" name="username" id="username" value="@Model.User.Name" />
+  <input type="hidden" name="orderid" id="orderid" value="@Model.Order.Id" />
+  <input type="hidden" name="locatitn" id="location" value="@Model.Location" />
   <button type="submit">Create Pizza</button>
 </form>
 

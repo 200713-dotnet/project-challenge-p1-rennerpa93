@@ -5,9 +5,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using PizzaBox.Client.Models;
+using PizzaBox.Domain.Factories;
 using PizzaBox.Domain.Models;
 using PizzaBox.Storing;
 using PizzaBox.Storing.Repositories;
+using static PizzaBox.Client.Models.PizzaViewModel;
 
 namespace PizzaBox.Client.Controllers
 {
@@ -24,19 +26,50 @@ namespace PizzaBox.Client.Controllers
 
     public IActionResult Order(UserViewModel uModel)
     {
-      return View("Order", new PizzaViewModel());
+      PizzaViewModel pModel = new PizzaViewModel();
+      StoreRepository sRepo = new StoreRepository(_db);
+      UserRepository uRepo = new UserRepository(_db);
+      OrderRepository oRepo = new OrderRepository(_db);
+      pModel.Username = uModel.Name;
+      pModel.Location = uModel.Location;
+      pModel.Order = new Order();
+      pModel.Order.Store = sRepo.GetStoreByLocation(uModel.Location);
+      pModel.Order.User = uRepo.GetUserByName(uModel.Name);
+      oRepo.Add(pModel.Order);
+      return View("Order", pModel);
     }
 
     [HttpPost]
     //[ValidateAntiForgeryToken]
-    public IActionResult PlaceOrder(PizzaViewModel pizzaViewModel)
+    public IActionResult FinishPizza(PizzaViewModel pModel)
     {
-      if (ModelState.IsValid)
-      {
-        return Redirect("user/home");
-      }
+      //if (ModelState.IsValid)
+      //{
+      //  return Redirect("user/home");
+      //}
 
-      return View("Order", pizzaViewModel);
+      PizzaViewModel npModel = new PizzaViewModel();
+      OrderRepository oRepo = new OrderRepository(_db);
+      PizzaRepository pRepo = new PizzaRepository(_db);
+      CrustRepository cRepo = new CrustRepository(_db);
+      SizeRepository sRepo = new SizeRepository(_db);
+      ToppingRepository tRepo = new ToppingRepository(_db);
+      PizzaFactory pf = new PizzaFactory();
+      Crust c = cRepo.GetCrustByName(pModel.Crust);
+      Size s = sRepo.GetSizeByName(pModel.Size);
+      List<Topping> t = new List<Topping>();
+      foreach(SelectedTopping st in pModel.SelectedToppings)
+      {
+        if (st.IsSelected)
+        {
+          t.Add(tRepo.GetToppingByName(st.Text));
+        }
+      }
+      
+      npModel.Username = pModel.Username;
+      npModel.Location = pModel.Location;
+      npModel.Order = oRepo.Get(pModel.OrderId);
+      return View("Order", npModel);
     }
 
     [HttpPost]
@@ -50,21 +83,27 @@ namespace PizzaBox.Client.Controllers
       UserRepository uRepo = new UserRepository(_db);
       uModel.User = uRepo.GetUserByName(uModel.Name);
       uModel.User.Orders = oRepo.GetUserOrders(uModel.User);
+      ViewBag.Location = uModel.Location;
       return View("ViewOrders", uModel);
     }
 
     [HttpPost]
-    public IActionResult AddPizza(OrderViewModel oModel)
+    public IActionResult AddPizza(PizzaViewModel pModel)
     {
-      PizzaViewModel pModel = new PizzaViewModel();
       CrustRepository cRepo = new CrustRepository(_db);
       SizeRepository sRepo = new SizeRepository(_db);
       ToppingRepository tRepo = new ToppingRepository(_db);
-      pModel.Order = oModel.Order;
+      OrderRepository oRepo = new OrderRepository(_db);
+      UserRepository uRepo = new UserRepository(_db);
+      pModel.User = uRepo.GetUserByName(pModel.Username);
+      pModel.Order = oRepo.Get(pModel.OrderId);
       pModel.Crusts = cRepo.GetCrusts();
       pModel.Sizes = sRepo.GetSizes();
       pModel.Toppings = tRepo.GetToppings();
-
+      foreach (Topping t in pModel.Toppings)
+      {
+        pModel.SelectedToppings.Add(new PizzaViewModel.SelectedTopping() { Text = t.Name, IsSelected = false });
+      }
       return View("AddPizza", pModel);
     }
 

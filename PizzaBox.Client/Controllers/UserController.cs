@@ -24,9 +24,8 @@ namespace PizzaBox.Client.Controllers
       {
         return View("Store", sModel);
       }
-      UserViewModel uModel = new UserViewModel();
-      uModel.Location = sModel.Location;
-      return View("Login", uModel);
+      ViewBag.Location = sModel.Location;
+      return View("Login");
     }
 
     public ActionResult Logout()

@@ -14,6 +14,10 @@ namespace PizzaBox.Client.Models
     public List<Size> Sizes { get; set; }
     public List<Topping> Toppings { get; set; }
     public Order Order { get; set; }
+    public User User { get; set; }
+    public string OrderId { get; set; }
+    public string Username { get; set; }
+    public string Location { get; set; }
 
     [Required(ErrorMessage = "Please select a crust")]
     public string Crust { get; set; }
@@ -26,22 +30,24 @@ namespace PizzaBox.Client.Models
 
     public class SelectedTopping : Topping
     {
+      public string Text { get; set; }
       public bool IsSelected { get; set; }
     }
 
     public PizzaViewModel()
     {
-      Crusts = new List<Crust>() { new Crust() { Name = "Stuffed" }, new Crust() { Name = "Normal" } };
-
-      Sizes = new List<Size>() { new Size() { Name = "Small" }, new Size() { Name = "Medium" } };
-
-      Toppings = new List<Topping>() { new Topping() { Name = "Cheese" }, new Topping() { Name = "Pepperoni" } };
-
       SelectedToppings = new List<SelectedTopping>();
-      for (int i = 0; i < Toppings.Count; i++)
-      {
-        SelectedToppings.Add(new SelectedTopping());
-      }
+      //Crusts = new List<Crust>() { new Crust() { Name = "Stuffed" }, new Crust() { Name = "Normal" } };
+
+      //Sizes = new List<Size>() { new Size() { Name = "Small" }, new Size() { Name = "Medium" } };
+
+      //Toppings = new List<Topping>() { new Topping() { Name = "Cheese" }, new Topping() { Name = "Pepperoni" } };
+
+      //SelectedToppings = new List<SelectedTopping>();
+      //for (int i = 0; i < Toppings.Count; i++)
+      //{
+      //  SelectedToppings.Add(new SelectedTopping());
+      //}
     }
   }
 }

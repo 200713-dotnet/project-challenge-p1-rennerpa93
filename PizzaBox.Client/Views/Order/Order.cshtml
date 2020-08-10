@@ -4,44 +4,20 @@
   ViewData["Title"] = "Order";
 }
 
-<h1>Order Home</h1>
+<h1>Current Order</h1>
 
+<p style="white-space: pre-line">@Model.Order</p>
 
-<form action="/order/placeorder" method="post">
-  @foreach (var crust in @Model.Crusts)
-  {
-    <label>
-      <input type="radio" name="crust" value="@crust.Name" data-val="true" data-val-required="Please pick a crust." />
-      @crust.Name
-    </label>
-    <br />
-  }
+<br />
 
-  <select name="size" id="">
-    @foreach (var size in @Model.Sizes)
-    {
-      <option value="@size.Name">@size.Name</option>
-    }
-  </select>
+<form action="/order/addpizza" method="post">
+  <input type="hidden" name="storeid" id="storeid" value="@Model.Order.Store.Id" />
+  <input type="hidden" name="username" id="username" value="@Model.Order.User.Name" />
+  <input type="hidden" name="orderid" id="orderid" value="@Model.Order.Id" />
 
-  <br />
-
-   
-  @foreach (var topping in @Model.Toppings)
-  {
-
-    int i = 0;
-    <label>
-      <input type="checkbox" name="selectedtoppings[@i].IsSelected" value="@topping.Name" />
-      <input type="hidden" name="selectedtoppings[@i].Name" value="@topping.Name" />
-      @topping.Name
-    </label>
-
-    <br />
-    i += 1;
-  }
-
-  <button type="submit">Create Pizza</button>
+  <button type="submit">Add Pizza</button>
 </form>
 
-
+<br />
+<form action="/order/submitorder" method="post">
+</form>

@@ -18,5 +18,10 @@ namespace PizzaBox.Storing.Repositories
     {
       return _db.Topping.ToList();
     }
+
+    public Topping GetToppingByName(string name)
+    {
+      return _db.Topping.FirstOrDefault(t => t.Name == name);
+    }
   }
 }

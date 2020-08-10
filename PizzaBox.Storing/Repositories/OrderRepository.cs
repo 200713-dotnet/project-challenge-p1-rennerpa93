@@ -13,6 +13,13 @@ namespace PizzaBox.Storing.Repositories
     {
       _db = db;
     }
+
+    public Order Get(string id)
+    {
+      int orderId;
+      int.TryParse(id, out orderId);
+      return _db.Order.FirstOrDefault(o => o.Id == orderId);
+    }
     public void Add(Order o)
     {
       _db.Order.Add(o);

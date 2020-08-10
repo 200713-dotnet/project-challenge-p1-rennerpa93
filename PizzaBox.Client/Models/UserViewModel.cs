@@ -13,6 +13,7 @@ namespace PizzaBox.Client.Models
     public User User { get; set; }
     public string Location { get; set; }
     public Store Store { get; set; }
+    public string OrderId { get; set; }
 
   }
 }
