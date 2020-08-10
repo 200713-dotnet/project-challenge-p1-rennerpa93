@@ -12,7 +12,7 @@ namespace PizzaBox.Storing
     public DbSet<Crust> Crust { get; set; }
     public DbSet<Size> Size { get; set; }
     public DbSet<Topping> Topping { get; set; }
-    public DbSet<PizzaTopping> PizzaTopping { get; set; }
+    public DbSet<PizzaTopping> PizzaToppings { get; set; }
     public DbSet<Store> Store { get; set; }
     public DbSet<Order> Order { get; set; }
     public DbSet<User> User { get; set; }

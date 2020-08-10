@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Linq;
+using Microsoft.EntityFrameworkCore;
 
 namespace PizzaBox.Storing.Repositories
 {
@@ -28,12 +29,13 @@ namespace PizzaBox.Storing.Repositories
 
     public List<Order> GetUserOrders(User user)
     {
-      return _db.Order.Where(o => o.User == user).ToList();
+      return _db.Order.Where(o => o.User == user).Include(o => o.Pizzas).ThenInclude(p => p.PizzaToppings).ThenInclude(pt => pt.Topping).ToList();
     }
 
     public List<Order> GetStoreOrders(Store store)
     {
-      return _db.Order.Where(o => o.Store == store).ToList();
+      return _db.Order.Where(o => o.Store == store).Include(o => o.Pizzas).ThenInclude(p => p.PizzaToppings).ThenInclude(pt => pt.Topping).ToList();
+      //return _db.Order.Where(o => o.Store == store).ToList();
     }
   }
 }

@@ -11,6 +11,7 @@ namespace PizzaBox.Domain.Models
     public List<PizzaTopping> PizzaToppings { get; set; }
     public Crust Crust { get; set; }
     public Size Size { get; set; }
+    public Order Order { get; set; }
 
     public Pizza()
     {
@@ -19,6 +20,7 @@ namespace PizzaBox.Domain.Models
       PizzaToppings = new List<PizzaTopping>();
       Crust = new Crust();
       Size = new Size();
+      Order = new Order();
     }
 
     public double GetPrice()

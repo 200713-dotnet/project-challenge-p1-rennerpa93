@@ -55,17 +55,18 @@ namespace PizzaBox.Client.Controllers
       SizeRepository sRepo = new SizeRepository(_db);
       ToppingRepository tRepo = new ToppingRepository(_db);
       PizzaFactory pf = new PizzaFactory();
-      Crust c = cRepo.GetCrustByName(pModel.Crust);
-      Size s = sRepo.GetSizeByName(pModel.Size);
-      List<Topping> t = new List<Topping>();
+      Pizza p = pf.Create();
+      p.Crust = cRepo.GetCrustByName(pModel.Crust);
+      p.Size = sRepo.GetSizeByName(pModel.Size);
+      p.Order = oRepo.Get(pModel.OrderId);
       foreach(SelectedTopping st in pModel.SelectedToppings)
       {
         if (st.IsSelected)
         {
-          t.Add(tRepo.GetToppingByName(st.Text));
+          p.PizzaToppings.Add(new PizzaTopping() { Topping = tRepo.GetToppingByName(st.Name), Pizza = p });
         }
       }
-      
+      pRepo.Add(p);
       npModel.Username = pModel.Username;
       npModel.Location = pModel.Location;
       npModel.Order = oRepo.Get(pModel.OrderId);

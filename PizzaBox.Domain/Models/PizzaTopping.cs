@@ -14,5 +14,6 @@ namespace PizzaBox.Domain.Models
       Pizza = new Pizza();
       Topping = new Topping();
     }
+
   }
 }

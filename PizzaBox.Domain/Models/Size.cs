@@ -14,5 +14,9 @@ namespace PizzaBox.Domain.Models
       Price = 0;
       Name = "";
     }
+    public override string ToString()
+    {
+      return Name;
+    }
   }
 }

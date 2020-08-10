@@ -16,5 +16,9 @@ namespace PizzaBox.Domain.Models
       Name = "";
       PizzaToppings = new List<PizzaTopping>();
     }
+    public override string ToString()
+    {
+      return Name;
+    }
   }
 }

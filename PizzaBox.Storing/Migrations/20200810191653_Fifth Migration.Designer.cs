@@ -3,15 +3,17 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PizzaBox.Storing;
 
 namespace PizzaBox.Storing.Migrations
 {
     [DbContext(typeof(PizzaBoxDbContext))]
-    partial class PizzaBoxDbContextModelSnapshot : ModelSnapshot
+    [Migration("20200810191653_Fifth Migration")]
+    partial class FifthMigration
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -98,28 +100,6 @@ namespace PizzaBox.Storing.Migrations
                     b.ToTable("Pizza");
                 });
 
-            modelBuilder.Entity("PizzaBox.Domain.Models.PizzaTopping", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.Property<int?>("PizzaId")
-                        .HasColumnType("int");
-
-                    b.Property<int?>("ToppingId")
-                        .HasColumnType("int");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("PizzaId");
-
-                    b.HasIndex("ToppingId");
-
-                    b.ToTable("PizzaToppings");
-                });
-
             modelBuilder.Entity("PizzaBox.Domain.Models.Size", b =>
                 {
                     b.Property<int>("Id")
@@ -163,10 +143,15 @@ namespace PizzaBox.Storing.Migrations
                     b.Property<string>("Name")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("PizzaId")
+                        .HasColumnType("int");
+
                     b.Property<double>("Price")
                         .HasColumnType("float");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("PizzaId");
 
                     b.ToTable("Topping");
                 });
@@ -215,15 +200,11 @@ namespace PizzaBox.Storing.Migrations
                         .HasForeignKey("SizeId");
                 });
 
-            modelBuilder.Entity("PizzaBox.Domain.Models.PizzaTopping", b =>
+            modelBuilder.Entity("PizzaBox.Domain.Models.Topping", b =>
                 {
-                    b.HasOne("PizzaBox.Domain.Models.Pizza", "Pizza")
-                        .WithMany("PizzaToppings")
+                    b.HasOne("PizzaBox.Domain.Models.Pizza", null)
+                        .WithMany("Toppings")
                         .HasForeignKey("PizzaId");
-
-                    b.HasOne("PizzaBox.Domain.Models.Topping", "Topping")
-                        .WithMany("PizzaToppings")
-                        .HasForeignKey("ToppingId");
                 });
 #pragma warning restore 612, 618
         }
