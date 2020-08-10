@@ -10,5 +10,10 @@ namespace PizzaBox.Domain.Models
     public List<Order> Orders { get; set; }
     public DateTime LastOrdered { get; set; }
 
+    public User()
+    {
+      Name = "";
+      Orders = new List<Order>();
+    }
   }
 }

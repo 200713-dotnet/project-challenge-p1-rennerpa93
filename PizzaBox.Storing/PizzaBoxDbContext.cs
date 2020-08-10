@@ -8,7 +8,14 @@ namespace PizzaBox.Storing
 {
   public class PizzaBoxDbContext : DbContext
   {
-    public DbSet<Pizza> Pizzas { get; set; } // create table
+    public DbSet<Pizza> Pizza { get; set; } // create table
+    public DbSet<Crust> Crust { get; set; }
+    public DbSet<Size> Size { get; set; }
+    public DbSet<Topping> Topping { get; set; }
+    public DbSet<PizzaTopping> PizzaTopping { get; set; }
+    public DbSet<Store> Store { get; set; }
+    public DbSet<Order> Order { get; set; }
+    public DbSet<User> User { get; set; }
     public PizzaBoxDbContext(DbContextOptions options) : base(options) { } // dependency injection
 
     protected override void OnModelCreating(ModelBuilder builder)

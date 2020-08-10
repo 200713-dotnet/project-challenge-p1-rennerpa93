@@ -4,84 +4,54 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using PizzaBox.Client.Models;
+using PizzaBox.Domain.Models;
+using PizzaBox.Storing;
+using PizzaBox.Storing.Repositories;
 
 namespace PizzaBox.Client.Controllers
 {
   public class UserController : Controller
   {
-    // GET: UserController
-    public ActionResult Index()
+    private readonly PizzaBoxDbContext _db;
+    public UserController(PizzaBoxDbContext db)
     {
-      return View();
+      _db = db;
     }
-
-    // GET: UserController/Details/5
-    public ActionResult Details(int id)
+    public ActionResult Login(StoreViewModel sModel)
     {
-      return View();
-    }
-
-    // GET: UserController/Create
-    public ActionResult Create()
-    {
-      return View();
-    }
-
-    // POST: UserController/Create
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Create(IFormCollection collection)
-    {
-      try
+      if (sModel.Admin)
       {
-        return RedirectToAction(nameof(Index));
+        return View("Store", sModel);
       }
-      catch
-      {
-        return View();
-      }
+      UserViewModel uModel = new UserViewModel();
+      uModel.Location = sModel.Location;
+      return View("Login", uModel);
     }
 
-    // GET: UserController/Edit/5
-    public ActionResult Edit(int id)
+    public ActionResult Logout()
     {
-      return View();
+      ViewData["User"] = null;
+      return Redirect("../Home/Index");
     }
 
-    // POST: UserController/Edit/5
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Edit(int id, IFormCollection collection)
+    public ActionResult Home(UserViewModel uModel)
     {
-      try
+      if (uModel.Name == null)
       {
-        return RedirectToAction(nameof(Index));
+        return View("Login");
       }
-      catch
+      UserRepository uRepo = new UserRepository(_db);
+      User u = uRepo.GetUserByName(uModel.Name);
+      if (u == null)
       {
-        return View();
+        u = new User() { Name = uModel.Name, Orders = new List<Order>() };
+        uRepo.Add(u);
       }
-    }
-
-    // GET: UserController/Delete/5
-    public ActionResult Delete(int id)
-    {
-      return View();
-    }
-
-    // POST: UserController/Delete/5
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public ActionResult Delete(int id, IFormCollection collection)
-    {
-      try
-      {
-        return RedirectToAction(nameof(Index));
-      }
-      catch
-      {
-        return View();
-      }
+      uModel.User = u;
+      ViewBag.User = u;
+      ViewBag.Location = uModel.Location;
+      return View("Home", uModel);
     }
   }
 }

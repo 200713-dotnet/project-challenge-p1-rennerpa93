@@ -4,6 +4,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
 using PizzaBox.Domain.Models;
+using PizzaBox.Storing;
 
 namespace PizzaBox.Client.Models
 {
@@ -12,6 +13,7 @@ namespace PizzaBox.Client.Models
     public List<Crust> Crusts { get; set; }
     public List<Size> Sizes { get; set; }
     public List<Topping> Toppings { get; set; }
+    public Order Order { get; set; }
 
     [Required(ErrorMessage = "Please select a crust")]
     public string Crust { get; set; }

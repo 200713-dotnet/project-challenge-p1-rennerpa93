@@ -8,5 +8,11 @@ namespace PizzaBox.Domain.Models
   {
     public double Price { get; set; }
     public string Name { get; set; }
+
+    public Size()
+    {
+      Price = 0;
+      Name = "";
+    }
   }
 }

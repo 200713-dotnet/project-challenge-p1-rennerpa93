@@ -1,0 +1,19 @@
+﻿@model PizzaBox.Client.Models.UserViewModel
+@{
+  ViewData["Title"] = "ViewOrders";
+}
+
+<h1>Order history for @Model.User.Name</h1>
+
+@for (int i = 1; i <= Model.User.Orders.Count; i++)
+{
+  <h4>Order #@i</h4>
+  <p style="white-space: pre-line">@Model.User.Orders[i - 1]</p>
+}
+
+<br />
+
+<form action="/user/home" method="post">
+  <input type="hidden" name="name" id="name" value="@Model.Name" />
+  <button type="submit">Return</button>
+</form>

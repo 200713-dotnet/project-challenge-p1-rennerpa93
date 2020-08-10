@@ -1,8 +1,25 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@model PizzaBox.Client.Models.StoreViewModel
+@{
+  ViewData["Title"] = "Home Page";
 }
 
 <div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+  <h1 class="display-4">Welcome to PizzaBox!</h1>
+  <br />
+  <p>Please choose a store.</p>
+  <br />
+  <form action="/user/login" method="post">
+    @foreach (var s in Model.Stores)
+    {
+      <input type="hidden" name="storeid" id="storeid" value="@s.Id" />
+      <input type="hidden" name="location" id="location" value="@s.Location" />
+      <button type="submit">@s.Location</button>
+    }
+    <br />
+    <label for="admin">
+      <input type="checkbox" name="admin" id="admin" value="true" />
+      Login as administrator
+    </label>
+  </form>
+  
 </div>

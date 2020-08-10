@@ -5,11 +5,11 @@ using System.Text;
 
 namespace PizzaBox.Domain.Factories
 {
-  public class PizzaFactory : IFactory<Pizza>
+  public class OrderFactory : IFactory<Order>
   {
-    public Pizza Create()
+    public Order Create()
     {
-      return new Pizza();
+      return new Order();
     }
   }
 }

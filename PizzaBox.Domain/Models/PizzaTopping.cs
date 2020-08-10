@@ -8,5 +8,11 @@ namespace PizzaBox.Domain.Models
   {
     public Pizza Pizza { get; set; }
     public Topping Topping { get; set; }
+
+    public PizzaTopping()
+    {
+      Pizza = new Pizza();
+      Topping = new Topping();
+    }
   }
 }

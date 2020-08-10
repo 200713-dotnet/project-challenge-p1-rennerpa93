@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using PizzaBox.Client.Models;
 using PizzaBox.Domain.Models;
 using PizzaBox.Storing;
+using PizzaBox.Storing.Repositories;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -20,7 +22,7 @@ namespace PizzaBox.Client.Controllers
     [HttpGet()]
     public IActionResult Get()
     {
-      ViewBag.pizzaList = _db.Pizzas.ToList();
+      ViewBag.pizzaList = _db.Pizza.ToList();
 
       return View("Home");
     }
@@ -28,16 +30,16 @@ namespace PizzaBox.Client.Controllers
     [HttpGet("{id}")]
     public IActionResult Get(int id)
     {
-      ViewBag.pizza = _db.Pizzas.SingleOrDefault(p => p.Id == id);
+      ViewBag.pizza = _db.Pizza.SingleOrDefault(p => p.Id == id);
       return View("Home");
     }
 
     [HttpGet("{userId}")]
     public IActionResult Get(int orderId, string idType = "Order")
     {
-      ViewBag.pizzaList = _db.Pizzas.ToList();
+      ViewBag.pizzaList = _db.Pizza.ToList();
 
-      return View("Home2", _db.Pizzas.ToList());
+      return View("Home2", _db.Pizza.ToList());
     }
   }
 }
