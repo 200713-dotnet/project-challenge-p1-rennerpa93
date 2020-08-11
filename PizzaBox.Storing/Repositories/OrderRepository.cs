@@ -43,7 +43,7 @@ namespace PizzaBox.Storing.Repositories
       {
         o.Pizzas.Add(p);
       }
-     
+
       return o;
     }
 
@@ -63,7 +63,7 @@ namespace PizzaBox.Storing.Repositories
         foreach (PizzaTopping pt in pizzaToppings)
         {
           p.PizzaToppings.Add(pt);
-       }
+        }
         o.Pizzas.Add(p);
       }
 
@@ -82,7 +82,7 @@ namespace PizzaBox.Storing.Repositories
       foreach (Order o in OrdersList)
       {
         var PizzaList = _db.Pizza.Include(t => t.Crust).Include(t => t.Size).Where(t => t.Order == o).ToList();
-        
+
         foreach (Pizza p in PizzaList)
         {
           var pizzaToppings = _db.PizzaToppings.Where(t => t.Pizza == p).Include(t => t.Topping).ToList();

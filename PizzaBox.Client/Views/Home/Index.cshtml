@@ -9,17 +9,20 @@
   <p>Please choose a store.</p>
   <br />
   <form action="/user/login" method="post">
-    @foreach (var s in Model.Stores)
+    @foreach (var s in @Model.Stores)
     {
-      <input type="hidden" name="storeid" id="storeid" value="@s.Id" />
-      <input type="hidden" name="location" id="location" value="@s.Location" />
-      <button type="submit">@s.Location</button>
+      <label>
+        <input type="radio" name="location" value="@s.Location" data-val="true" data-val-required="Please pick a Location." />
+        @s.Location
+      </label>
     }
     <br />
     <label for="admin">
       <input type="checkbox" name="admin" id="admin" value="true" />
       Login as administrator
     </label>
+    <br />
+    <button type="submit">Continue</button>
   </form>
   
 </div>
