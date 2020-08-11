@@ -46,6 +46,29 @@ namespace PizzaBox.Storing.Repositories
      
       return o;
     }
+
+    public Order Get2(string id)
+    {
+      int orderId;
+      int.TryParse(id, out orderId);
+
+      Order o = _db.Order.FirstOrDefault(ot => ot.Id == orderId);
+      o.Pizzas = new List<Pizza>();
+
+      var PizzaList = _db.Pizza.Include(t => t.Crust).Include(t => t.Size).Where(t => t.Order == o).ToList();
+      var pizzaToppings = new List<PizzaTopping>();
+      foreach (Pizza p in PizzaList)
+      {
+        pizzaToppings = _db.PizzaToppings.Where(t => t.Pizza == p).Include(t => t.Topping).ToList();
+        foreach (PizzaTopping pt in pizzaToppings)
+        {
+          p.PizzaToppings.Add(pt);
+       }
+        o.Pizzas.Add(p);
+      }
+
+      return o;
+    }
     public void Add(Order o)
     {
       _db.Order.Add(o);

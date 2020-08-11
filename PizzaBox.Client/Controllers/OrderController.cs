@@ -57,7 +57,7 @@ namespace PizzaBox.Client.Controllers
       Pizza p = pf.CreateCustom();
       p.Crust = cRepo.GetCrustByName(pModel.Crust);
       p.Size = sRepo.GetSizeByName(pModel.Size);
-      p.Order = oRepo.Get(pModel.OrderId);
+      p.Order = oRepo.Get2(pModel.OrderId);
       foreach(SelectedTopping st in pModel.SelectedToppings)
       {
         if (st.IsSelected)
