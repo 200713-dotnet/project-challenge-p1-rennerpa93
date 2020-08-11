@@ -14,7 +14,7 @@ namespace PizzaBox.Domain.Factories
 
     public Pizza CreateCustom()
     {
-      return new Pizza() { Name = "Custom" };
+      return new Pizza() { Name = "Custom Pizza" };
     }
 
   }

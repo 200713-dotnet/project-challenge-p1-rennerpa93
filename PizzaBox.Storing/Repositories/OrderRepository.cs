@@ -15,11 +15,36 @@ namespace PizzaBox.Storing.Repositories
       _db = db;
     }
 
+    public void Update(Order order)
+    {
+      _db.Update(order);
+      _db.SaveChanges();
+    }
     public Order Get(string id)
     {
       int orderId;
       int.TryParse(id, out orderId);
-      return _db.Order.FirstOrDefault(o => o.Id == orderId);
+
+      Order o = _db.Order.FirstOrDefault(ot => ot.Id == orderId);
+      o.Pizzas = new List<Pizza>();
+
+      var PizzaList = _db.Pizza.Include(t => t.Crust).Include(t => t.Size).Where(t => t.Order == o).ToList();
+      //var pizzaToppings = new List<PizzaTopping>();
+      //foreach (Pizza p in PizzaList)
+      //{
+      //  pizzaToppings = _db.PizzaToppings.Where(t => t.Pizza == p).Include(t => t.Topping).ToList();
+      //  foreach (PizzaTopping pt in pizzaToppings)
+      //  {
+      //    p.PizzaToppings.Add(pt);
+      //  }
+      //  o.Pizzas.Add(p);
+      //}
+      foreach (Pizza p in PizzaList)
+      {
+        o.Pizzas.Add(p);
+      }
+     
+      return o;
     }
     public void Add(Order o)
     {
@@ -29,13 +54,46 @@ namespace PizzaBox.Storing.Repositories
 
     public List<Order> GetUserOrders(User user)
     {
-      return _db.Order.Where(o => o.User == user).Include(o => o.Pizzas).ThenInclude(p => p.PizzaToppings).ThenInclude(pt => pt.Topping).ToList();
+      var OrdersList = _db.Order.Where(o => o.User == user).ToList();
+
+      foreach (Order o in OrdersList)
+      {
+        var PizzaList = _db.Pizza.Include(t => t.Crust).Include(t => t.Size).Where(t => t.Order == o).ToList();
+        
+        foreach (Pizza p in PizzaList)
+        {
+          var pizzaToppings = _db.PizzaToppings.Where(t => t.Pizza == p).Include(t => t.Topping).ToList();
+          foreach (PizzaTopping pt in pizzaToppings)
+          {
+            p.PizzaToppings.Add(pt);
+          }
+          o.Pizzas.Add(p);
+        }
+      }
+
+      return OrdersList;
     }
 
     public List<Order> GetStoreOrders(Store store)
     {
-      return _db.Order.Where(o => o.Store == store).Include(o => o.Pizzas).ThenInclude(p => p.PizzaToppings).ThenInclude(pt => pt.Topping).ToList();
-      //return _db.Order.Where(o => o.Store == store).ToList();
+      var OrdersList = _db.Order.Where(o => o.Store == store).ToList();
+
+      foreach (Order o in OrdersList)
+      {
+        var PizzaList = _db.Pizza.Include(t => t.Crust).Include(t => t.Size).Where(t => t.Order == o).ToList();
+
+        foreach (Pizza p in PizzaList)
+        {
+          var pizzaToppings = _db.PizzaToppings.Where(t => t.Pizza == p).Include(t => t.Topping).ToList();
+          foreach (PizzaTopping pt in pizzaToppings)
+          {
+            p.PizzaToppings.Add(pt);
+          }
+          o.Pizzas.Add(p);
+        }
+      }
+
+      return OrdersList;
     }
   }
 }

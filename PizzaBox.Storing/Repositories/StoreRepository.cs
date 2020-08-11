@@ -22,5 +22,12 @@ namespace PizzaBox.Storing.Repositories
     {
       return _db.Store.FirstOrDefault(s => s.Location == loc);
     }
+
+    public Store GetStoreById(string id)
+    {
+      int storeId;
+      int.TryParse(id, out storeId);
+      return _db.Store.FirstOrDefault(s => s.Id == storeId);
+    }
   }
 }

@@ -52,5 +52,27 @@ namespace PizzaBox.Client.Controllers
       ViewBag.Location = uModel.Location;
       return View("Home", uModel);
     }
+
+    [HttpPost]
+    public IActionResult SubmitOrder(PizzaViewModel pModel)
+    {
+      StoreRepository sRepo = new StoreRepository(_db);
+      OrderRepository oRepo = new OrderRepository(_db);
+      UserRepository uRepo = new UserRepository(_db);
+      User u = uRepo.GetUserByName(pModel.Username);
+      Order o = oRepo.Get(pModel.OrderId);
+      Store s = sRepo.GetStoreByLocation(pModel.Location);
+      o.Store = s;
+      o.User = u;
+      o.Status = "Complete";
+      oRepo.Update(o);
+      UserViewModel uModel = new UserViewModel();
+      uModel.User = u;
+      uModel.Store = s;
+      ViewBag.User = u;
+      ViewBag.Location = pModel.Location;
+
+      return View("Home", uModel);
+    }
   }
 }

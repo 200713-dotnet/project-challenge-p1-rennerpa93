@@ -48,14 +48,13 @@ namespace PizzaBox.Client.Controllers
       //  return Redirect("user/home");
       //}
 
-      PizzaViewModel npModel = new PizzaViewModel();
       OrderRepository oRepo = new OrderRepository(_db);
       PizzaRepository pRepo = new PizzaRepository(_db);
       CrustRepository cRepo = new CrustRepository(_db);
       SizeRepository sRepo = new SizeRepository(_db);
       ToppingRepository tRepo = new ToppingRepository(_db);
       PizzaFactory pf = new PizzaFactory();
-      Pizza p = pf.Create();
+      Pizza p = pf.CreateCustom();
       p.Crust = cRepo.GetCrustByName(pModel.Crust);
       p.Size = sRepo.GetSizeByName(pModel.Size);
       p.Order = oRepo.Get(pModel.OrderId);
@@ -66,11 +65,10 @@ namespace PizzaBox.Client.Controllers
           p.PizzaToppings.Add(new PizzaTopping() { Topping = tRepo.GetToppingByName(st.Name), Pizza = p });
         }
       }
+      p.Price = p.GetPrice();
       pRepo.Add(p);
-      npModel.Username = pModel.Username;
-      npModel.Location = pModel.Location;
-      npModel.Order = oRepo.Get(pModel.OrderId);
-      return View("Order", npModel);
+      pModel.Order = oRepo.Get(pModel.OrderId);
+      return View("Order", pModel);
     }
 
     [HttpPost]
