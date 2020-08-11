@@ -67,7 +67,7 @@ namespace PizzaBox.Domain.Models
         count += 1;
       }
 
-      return $"{sb}\nStatus: {Status} \n Total Cost: ${CalculatePrice()}\n";
+      return $"{sb}\nDate Ordered: {Date} -- Status: {Status} \n Total Cost: ${CalculatePrice()}\n";
     }
   }
 }

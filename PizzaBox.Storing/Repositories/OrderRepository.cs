@@ -29,16 +29,7 @@ namespace PizzaBox.Storing.Repositories
       o.Pizzas = new List<Pizza>();
 
       var PizzaList = _db.Pizza.Include(t => t.Crust).Include(t => t.Size).Where(t => t.Order == o).ToList();
-      //var pizzaToppings = new List<PizzaTopping>();
-      //foreach (Pizza p in PizzaList)
-      //{
-      //  pizzaToppings = _db.PizzaToppings.Where(t => t.Pizza == p).Include(t => t.Topping).ToList();
-      //  foreach (PizzaTopping pt in pizzaToppings)
-      //  {
-      //    p.PizzaToppings.Add(pt);
-      //  }
-      //  o.Pizzas.Add(p);
-      //}
+
       foreach (Pizza p in PizzaList)
       {
         o.Pizzas.Add(p);

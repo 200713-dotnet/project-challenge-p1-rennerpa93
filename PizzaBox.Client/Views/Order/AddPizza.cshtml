@@ -10,7 +10,7 @@
   {
     <label>
       <input type="radio" name="crust" value="@crust.Name" data-val="true" data-val-required="Please pick a crust." />
-      @crust.Name
+      @crust.Name + $@crust.Price
     </label>
     <br />
   }
@@ -18,7 +18,7 @@
   <select name="size" id="">
     @foreach (var size in @Model.Sizes)
     {
-      <option value="@size.Name">@size.Name</option>
+      <option value="@size.Name">@size.Name + $@size.Price</option>
     }
   </select>
 
@@ -30,7 +30,7 @@
     <label>
       <input type="checkbox" name="selectedtoppings[@i].IsSelected" value="true" />
       <input type="hidden" name="selectedtoppings[@i].Name" value="@Model.Toppings[i].Name" />
-      @Model.Toppings[i].Name
+      @Model.Toppings[i].Name + $@Model.Toppings[i].Price
     </label>
     <br />
   }

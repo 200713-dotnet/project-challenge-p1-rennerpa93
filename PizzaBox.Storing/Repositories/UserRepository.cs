@@ -26,6 +26,10 @@ namespace PizzaBox.Storing.Repositories
       return _db.User.FirstOrDefault(u => u.Name == name);
     }
 
+    public List<User> GetAll()
+    {
+      return _db.User.ToList();
+    }
     public void Update(User user)
     {
       _db.Update(user);
